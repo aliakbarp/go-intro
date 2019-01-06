@@ -2,6 +2,7 @@ package handler
 
 import (
 	"errors"
+	"html/template"
 	"log"
 	"net/http"
 
@@ -18,48 +19,45 @@ const (
 
 // Hello function for greeting hello and testing the service
 func Hello(w http.ResponseWriter, r *http.Request) {
-	err := httpResponse(&w, dbfunc.StudentResp{
-		Code:    1111,
-		Message: "Testing API",
-	})
-	if err != nil {
-		log.Println("[Hello] Error writing a response")
-	}
+	tmpl := template.Must(template.ParseFiles("upload.html"))
+	tmpl.Execute(w, nil)
 }
 
 // UploadHandler to handler image that coming
 func UploadHandler(w http.ResponseWriter, r *http.Request) {
+	type htmlResponse struct {
+		Header string             `json:"header,omitempty"`
+		Data   dbfunc.StudentResp `json:"html_data,omitempty"`
+	}
+	tmpl := template.Must(template.ParseFiles("view.html"))
+
 	studentInfo, err := checkRequest(r)
 	if err != nil {
 		log.Println("[UploadHandler] Error in checking request validity ")
-		err = httpResponse(&w, dbfunc.StudentResp{
-			Code:    3333,
-			Message: "Invalid request",
+		tmpl.Execute(w, htmlResponse{
+			Header: "Invalid request",
+			Data: dbfunc.StudentResp{
+				Code: 3333,
+			},
 		})
-		if err != nil {
-			log.Println("[UploadHandler] Error writing a response")
-			return
-		}
+		return
 	}
 
 	response, err := InsertToDB(studentInfo)
 	if err != nil {
 		log.Println("[UploadHandler] Error inserting to database ")
-		err = httpResponse(&w, dbfunc.StudentResp{
-			Code:    4444,
-			Message: "Failed to process data",
+		tmpl.Execute(w, htmlResponse{
+			Header: "Error inserting data to database",
+			Data: dbfunc.StudentResp{
+				Code: 5555,
+			},
 		})
-		if err != nil {
-			log.Println("[UploadHandler] Error writing a response")
-			return
-		}
-	}
-
-	err = httpResponse(&w, response)
-	if err != nil {
-		log.Println("[UploadHandler] Error writing a response")
 		return
 	}
+	tmpl.Execute(w, htmlResponse{
+		Header: "Thank you",
+		Data:   response,
+	})
 }
 
 // InsertToDB insert image info into database
@@ -81,7 +79,6 @@ func InsertToDB(student dbfunc.StudentReq) (dbfunc.StudentResp, error) {
 		return result, err
 	}
 	result = dbfunc.StudentResp{
-		Code: 1000,
 		Data: dbfunc.DataResp{
 			Name: ministryRes.Data.Name,
 			ID:   studentID,
