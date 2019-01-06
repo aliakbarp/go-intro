@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Upload</title>
+</head>
+<body>
+    <h3>{{ .Header}}</h3>
+    {{if not .Data.Code}}
+        <label><strong>Name : </strong></label>{{ .Data.Data.Name}}<br>
+        <label><strong>Your ID : </strong></label>{{ .Data.Data.ID}}<br>
+        <label><strong>Message : </strong></label>{{ .Data.Message}}<br>
+    {{else}}
+        <label><strong>Error code : </strong></label>{{ .Data.Code}}<br>
+    {{end}}
+    <br>
+    <a href="/">
+        <button>submit again</button>
+    </a>
+</body>
+</html>
