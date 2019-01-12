@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/aliakbarp/student-database/ministry/handler"
+	"github.com/aliakbarp/go-intro/ministry/handler"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 )
