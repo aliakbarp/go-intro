@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/aliakbarp/student-database/ministry/db"
+	"github.com/aliakbarp/go-intro/ministry/db"
 )
 
 const (

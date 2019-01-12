@@ -3,7 +3,7 @@ package service
 import (
 	"mime/multipart"
 
-	"github.com/aliakbarp/student-database/school/dbfunc"
+	"github.com/aliakbarp/go-intro/school/dbfunc"
 )
 
 type MinistryReq struct {

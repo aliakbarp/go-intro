@@ -6,8 +6,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/aliakbarp/student-database/school/dbfunc"
-	"github.com/aliakbarp/student-database/school/service"
+	"github.com/aliakbarp/go-intro/school/dbfunc"
+	"github.com/aliakbarp/go-intro/school/service"
 )
 
 const (
